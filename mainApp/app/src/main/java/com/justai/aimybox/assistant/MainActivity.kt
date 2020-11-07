@@ -284,46 +284,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getPos(latitude: Double, longitude: Double): List<Pair<String, MutableList<String>>> {
-        val url =
-                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=40&key=AIzaSyC9umGSBv04JS9H1mNoIUdzf8o8e_IQ_nw"
-        val request = okhttp3.Request.Builder().url(url).build()
-
-        var client = OkHttpClient()
-        val result = mutableListOf<Pair<String, MutableList<String>>>()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: okhttp3.Response) {
-                val places = JSONArray(JSONObject(response.body?.string()).get("results").toString())
-                for (i in 0 until places.length()) {
-                    val name = JSONObject(places[i].toString()).get("name").toString()
-                    val typesArray =
-                            (JSONObject(places[i].toString()).get("types") as JSONArray)
-                    val types = mutableListOf<String>()
-                    for (j in 0 until typesArray.length()) {
-                        types.add(typesArray[j].toString())
-                    }
-                    result.add(Pair(name, types))
-                }
-            }
-
-            override fun onFailure(call: Call, e: IOException) {
-                println("FAILED TO EXECUTE REQUEST")
-            }
-        })
-        // Sleep for now, maybe add async/await later
-        Thread.sleep(2000L)
-        return result
-    }
-
-
     @SuppressLint("MissingPermission")
     fun fetchAddressButtonHandler(view: View?) {
         val locationText = findViewById<TextView>(R.id.location)
-        println(getPos(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble()))
-        locationText.text = getPos(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble())[0].first
+        val latitude = latitudeText.text.toString().split(':')[1].toDouble()
+        val longitude = longitudeText.text.toString().split(':')[1].toDouble()
+        val locationHandler = LocationHandler()
+        locationText.text = locationHandler.getPlaceName(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble())
 
-        (application as AimyboxProvider).aimybox.sendRequest("location")
+        if (locationText.text != "") {
+//            (application as AimyboxProvider).aimybox.sendRequest(locationText.text.toString())
+            (application as AimyboxProvider).aimybox.sendRequest("need Martinitoren")
+        }
     }
 
     override fun onBackPressed() {
