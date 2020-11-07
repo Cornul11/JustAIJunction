@@ -10,7 +10,7 @@ import com.justai.aimybox.speechkit.google.platform.GooglePlatformSpeechToText
 import com.justai.aimybox.speechkit.google.platform.GooglePlatformTextToSpeech
 import java.util.*
 
-class AimyboxApplication : Application(), AimyboxProvider {
+open class AimyboxApplication : Application(), AimyboxProvider {
 
     companion object {
         private const val AIMYBOX_API_KEY = "Ldf0j7WZi3KwNah2aNeXVIACz0lb9qMH"
@@ -18,7 +18,8 @@ class AimyboxApplication : Application(), AimyboxProvider {
 
     override val aimybox by lazy { createAimybox(this) }
 
-    private fun createAimybox(context: Context): Aimybox {
+
+    open fun createAimybox(context: Context): Aimybox {
         val unitId = UUID.randomUUID().toString();
 
         val textToSpeech = GooglePlatformTextToSpeech(context, Locale.ENGLISH)

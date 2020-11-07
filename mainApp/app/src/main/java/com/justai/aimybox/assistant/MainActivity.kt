@@ -17,34 +17,35 @@
 package com.justai.aimybox.assistant
 
 import android.Manifest
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Geocoder
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.ResultReceiver
 import android.provider.Settings
-import com.google.android.material.snackbar.Snackbar
-import androidx.core.app.ActivityCompat
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
+import com.justai.aimybox.Aimybox
 import com.justai.aimybox.assistant.BuildConfig.APPLICATION_ID
 import com.justai.aimybox.components.AimyboxAssistantFragment
+import com.justai.aimybox.components.AimyboxAssistantViewModel
+import com.justai.aimybox.components.AimyboxProvider
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.IOException
 
 /**
  * Getting the Location Address.
@@ -77,11 +78,6 @@ class MainActivity : AppCompatActivity() {
      * Provides access to the Fused Location Provider API.
      */
     private var fusedLocationClient: FusedLocationProviderClient? = null
-
-    /**
-     * Represents a geographical location.
-     */
-    private var lastLocation: Location? = null
 
     /**
      * Tracks whether the user has requested an address. Becomes true when the user requests an
@@ -152,7 +148,6 @@ class MainActivity : AppCompatActivity() {
                     if (taskLocation.isSuccessful && taskLocation.result != null) {
 
                         val location = taskLocation.result
-
                         latitudeText.text = resources
                                 .getString(R.string.latitude_label, location?.latitude)
                         longitudeText.text = resources
@@ -289,6 +284,43 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun getPos(latitude: Double, longitude: Double): List<Pair<String, MutableList<String>>> {
+        val url =
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=20&key=AIzaSyC9umGSBv04JS9H1mNoIUdzf8o8e_IQ_nw"
+        val request = okhttp3.Request.Builder().url(url).build()
+
+        var client = OkHttpClient()
+        val result = mutableListOf<Pair<String, MutableList<String>>>()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                val places = JSONArray(JSONObject(response.body?.string()).get("results").toString())
+                for (i in 0 until places.length()) {
+                    val name = JSONObject(places[i].toString()).get("name").toString()
+                    val typesArray =
+                            (JSONObject(places[i].toString()).get("types") as JSONArray)
+                    val types = mutableListOf<String>()
+                    for (j in 0 until typesArray.length()) {
+                        types.add(typesArray[j].toString())
+                    }
+                    result.add(Pair(name, types))
+                }
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                println("FAILED TO EXECUTE REQUEST")
+            }
+        })
+        // Sleep for now, maybe add async/await later
+        Thread.sleep(2000L)
+        return result
+    }
+
+    fun fetchAddressButtonHandler(view: View?) {
+        val locationText = findViewById<TextView>(R.id.location)
+        locationText.text = getPos(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble())[0].first
     }
 
     override fun onBackPressed() {
