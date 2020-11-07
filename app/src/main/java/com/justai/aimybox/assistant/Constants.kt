@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.gms.location.sample.locationaddress
+package com.justai.aimybox.assistant
 
 /**
  * Constant values reused in this sample.

@@ -21,4 +21,6 @@
 
     <dimen name="default_text_size">16sp</dimen>
     <dimen name="text_margin_top">72dp</dimen>
+    <dimen name="text_margin">24dp</dimen>
+    <dimen name="margin_start">10dp</dimen>
 </resources>
