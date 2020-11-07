@@ -12,12 +12,7 @@ import java.util.*
 
 open class AimyboxApplication : Application(), AimyboxProvider {
 
-    companion object {
-        private const val AIMYBOX_API_KEY = "Ldf0j7WZi3KwNah2aNeXVIACz0lb9qMH"
-    }
-
     override val aimybox by lazy { createAimybox(this) }
-
 
     open fun createAimybox(context: Context): Aimybox {
         val unitId = UUID.randomUUID().toString();
@@ -25,8 +20,12 @@ open class AimyboxApplication : Application(), AimyboxProvider {
         val textToSpeech = GooglePlatformTextToSpeech(context, Locale.ENGLISH)
         val speechToText = GooglePlatformSpeechToText(context, Locale.ENGLISH)
 
-        val dialogApi = AimyboxDialogApi(AIMYBOX_API_KEY, unitId)
+        val dialogApi = AimyboxDialogApi("", unitId, "https://bot.jaicp.com/chatapi/webhook/zenbox/aWoYYOJg:94e0dd2d8fcab0357bf8e08fb84e07b542ee75bc")
 
         return Aimybox(Config.create(speechToText, textToSpeech, dialogApi))
     }
+
+
+//    override val aimybox: Aimybox
+//        get() = createAimybox(this)
 }

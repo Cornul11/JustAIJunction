@@ -35,10 +35,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
-import com.justai.aimybox.Aimybox
 import com.justai.aimybox.assistant.BuildConfig.APPLICATION_ID
 import com.justai.aimybox.components.AimyboxAssistantFragment
-import com.justai.aimybox.components.AimyboxAssistantViewModel
 import com.justai.aimybox.components.AimyboxProvider
 import okhttp3.Call
 import okhttp3.Callback
@@ -288,7 +286,7 @@ class MainActivity : AppCompatActivity() {
 
     fun getPos(latitude: Double, longitude: Double): List<Pair<String, MutableList<String>>> {
         val url =
-                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=20&key=AIzaSyC9umGSBv04JS9H1mNoIUdzf8o8e_IQ_nw"
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=40&key=AIzaSyC9umGSBv04JS9H1mNoIUdzf8o8e_IQ_nw"
         val request = okhttp3.Request.Builder().url(url).build()
 
         var client = OkHttpClient()
@@ -318,9 +316,25 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
+
+    @SuppressLint("MissingPermission")
     fun fetchAddressButtonHandler(view: View?) {
-        val locationText = findViewById<TextView>(R.id.location)
-        locationText.text = getPos(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble())[0].first
+        //val locationText = findViewById<TextView>(R.id.location)
+        //println(getPos(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble()))
+        //locationText.text = getPos(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble())[0].first
+
+        //(application as AimyboxProvider).aimybox.sendRequest("hello")
+//        val aimybox = (AimyboxApplication.AIMY as AimyboxProvider).aimybox
+//        aimybox.sendRequest("hello")
+
+
+
+//        val instance = AimyboxApplication()
+//        instance.getInstance().sendRequest("hello")
+
+
+//        instance.getInstance().sendRequest("test")
+//        AimyboxApplication().getInstance().sendRequest("test");
     }
 
     override fun onBackPressed() {
