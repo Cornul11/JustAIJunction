@@ -2,53 +2,129 @@ package com.example.places
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Response
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.IOException
-import kotlinx.coroutines.*
-import kotlin.system.*
+import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        println(getPos(53.219351, 6.567878))
-    }
 
-    fun getPos(latitude: Double, longitude: Double): List<Pair<String, MutableList<String>>> {
-        val url =
-            "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=20&key=AIzaSyC9umGSBv04JS9H1mNoIUdzf8o8e_IQ_nw"
-        val request = okhttp3.Request.Builder().url(url).build()
+        var location_handler = LocationHandler()
+        /*
+        println(location_handler.getPlaceName(53.2122827, 6.56607809))
+        println(location_handler.getPlaceName(53.2195244, 6.568807))
+        println(location_handler.getLocationHistory())
+        */
 
-        var client = OkHttpClient()
-        val result = mutableListOf<Pair<String, MutableList<String>>>()
+        val textView1: TextView = findViewById(R.id.textView1) as TextView
+        textView1.text = location_handler.getPlaceName(53.2122827, 6.56607809)
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: okhttp3.Response) {
-                val places = JSONArray(JSONObject(response.body?.string()).get("results").toString())
-                for (i in 0 until places.length()) {
-                    val name = JSONObject(places[i].toString()).get("name").toString()
-                    val typesArray =
-                        (JSONObject(places[i].toString()).get("types") as JSONArray)
-                    val types = mutableListOf<String>()
-                    for (j in 0 until typesArray.length()) {
-                        types.add(typesArray[j].toString())
-                    }
-                    result.add(Pair(name, types))
-                }
-            }
+        val textView2: TextView = findViewById(R.id.textView2) as TextView
+        textView2.text = location_handler.getPlaceName(53.2195244, 6.568807)
 
-            override fun onFailure(call: Call, e: IOException) {
-                println("FAILED TO EXECUTE REQUEST")
-            }
-        })
-        // Sleep for now, maybe add async/await later
-        Thread.sleep(2000L)
-        return result
+        val textView3: TextView = findViewById(R.id.textView3) as TextView
+        textView3.text = location_handler.getLocationHistory()[0]
+
     }
 }
 
+
+
+/*
+accounting
+airport
+amusement_park
+aquarium
+art_gallery
+atm
+bakery
+bank
+bar
+beauty_salon
+bicycle_store
+book_store
+bowling_alley
+bus_station
+cafe
+campground
+car_dealer
+car_rental
+car_repair
+car_wash
+casino
+cemetery
+church
+city_hall
+clothing_store
+convenience_store
+courthouse
+dentist
+department_store
+doctor
+drugstore
+electrician
+electronics_store
+embassy
+fire_station
+florist
+funeral_home
+furniture_store
+gas_station
+gym
+hair_care
+hardware_store
+hindu_temple
+home_goods_store
+hospital
+insurance_agency
+jewelry_store
+laundry
+lawyer
+library
+light_rail_station
+liquor_store
+local_government_office
+locksmith
+lodging
+meal_delivery
+meal_takeaway
+mosque
+movie_rental
+movie_theater
+moving_company
+museum
+night_club
+painter
+park
+parking
+pet_store
+pharmacy
+physiotherapist
+plumber
+police
+post_office
+primary_school
+real_estate_agency
+restaurant
+roofing_contractor
+rv_park
+school
+secondary_school
+shoe_store
+shopping_mall
+spa
+stadium
+storage
+store
+subway_station
+supermarket
+synagogue
+taxi_stand
+tourist_attraction
+train_station
+transit_station
+travel_agency
+university
+veterinary_care
+zoo
+ */
