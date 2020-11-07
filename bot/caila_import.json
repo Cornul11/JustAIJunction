@@ -96,7 +96,7 @@
           "text": "my location"
         },
         {
-          "text": "see location"
+          "text": "where"
         },
         {
           "text": "where am i"
@@ -113,18 +113,25 @@
       ],
       "patterns":[
 
-      ],
-      "slots":[
-        {
-          "name":"LocationName",
-          "entity":"Location",
-          "required":true,
-          "prompts":[
-            "Current location?"
-          ],
-          "array":false
-        }
       ]
+    },
+    {
+      "id": 9202,
+      "path": "/History",
+      "enabled": true,
+      "shared": false,
+      "phrases": [
+        {
+          "text": "history"
+        },
+        {
+          "text": "today"
+        },
+        {
+          "text": "what I've seen"
+        }
+      ],
+      "patterns": []
     }
   ],
   "entities":[
@@ -159,8 +166,7 @@
           "rule":[
             "Martinikerk (Groningen)",
             "Martinikerk_(Groningen)",
-            "Martinikerk",
-            "Martina Kirk"
+            "Martinikerk"
           ],
           "value":"",
           "id":106202
@@ -175,6 +181,22 @@
           ],
           "value":"",
           "id":106204
+        },
+        {
+          "type":"synonyms",
+          "rule":[
+            "Martinitoren"
+          ],
+          "value":"",
+          "id":106205
+        },
+        {
+          "type":"synonyms",
+          "rule":[
+            "Groninger Museum"
+          ],
+          "value":"",
+          "id":106206
         }
       ]
     },
