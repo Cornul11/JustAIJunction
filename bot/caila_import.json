@@ -1,0 +1,217 @@
+{
+  "project": {
+    "id": "jaicf-jaicp-caila-template",
+    "name": "jaicf-jaicp-caila-template",
+    "folder": "/"
+  },
+  "settings": {
+    "language": "en",
+    "spellingCorrection": false,
+    "classificationAlgorithm": "sts",
+    "timezone": "UTC",
+    "shared": false
+  },
+  "intents": [
+    {
+      "id": 6760,
+      "path": "/Bye",
+      "enabled": true,
+      "shared": false,
+      "phrases": [
+        {
+          "text": "goodbye"
+        },
+        {
+          "text": "bye"
+        },
+        {
+          "text": "see you"
+        }
+      ],
+      "patterns": []
+    },
+    {
+      "id": 6765,
+      "path": "/Smalltalk",
+      "answer": "You could pick name by yourself, I am your personal trip guide",
+      "enabled": true,
+      "shared": false,
+      "phrases": [
+        {
+          "text": "what is your name"
+        },
+        {
+          "text": "how to name you"
+        },
+        {
+          "text": "say me your name"
+        }
+      ],
+      "patterns": []
+    },
+    {
+      "id":9186,
+      "path":"/Hello",
+      "answer":"Nice to meet you",
+      "enabled":true,
+      "shared":false,
+      "phrases":[{
+        "text":"I'm"
+      },
+        {
+          "text":"hey"
+        },
+        {
+          "text":"Hello"
+        },
+        {
+          "text":"Hi"
+        }
+      ],
+      "patterns":[],
+      "slots":
+      [{
+        "name":"my_name",
+        "entity":"Name",
+        "required":true,
+        "prompts":
+        [
+          "What is your name?"
+        ]}
+      ]
+    },
+    {
+      "id":9201,
+      "path":"/CurrentLocation",
+      "enabled":true,
+      "shared":false,
+      "phrases":[
+        {
+          "text":"loc"
+        },
+        {
+          "text": "location"
+        },
+        {
+          "text": "my location"
+        },
+        {
+          "text": "see location"
+        },
+        {
+          "text": "where am i"
+        },
+        {
+          "text": "what is there on the left"
+        },
+        {
+          "text": "what is there on the right"
+        },
+        {
+          "text": "what's in front of me"
+        }
+      ],
+      "patterns":[
+
+      ],
+      "slots":[
+        {
+          "name":"LocationName",
+          "entity":"Location",
+          "required":true,
+          "prompts":[
+            "Current location?"
+          ],
+          "array":false
+        }
+      ]
+    }
+  ],
+  "entities":[
+    {
+      "entity":{
+        "name":"Location",
+        "type":"annotation",
+        "id":7641,
+        "enabled":true,
+        "shared":false,
+        "priority":1,
+        "noSpelling":true,
+        "noMorph":false,
+        "phoneticSearch":false,
+        "fuzzySearch":false,
+        "client":false
+      },
+      "records":[
+        {
+          "type":"synonyms",
+          "rule":[
+            "Der_Aa-kerk",
+            "Akerk",
+            "A-kerk",
+            "Kerk"
+          ],
+          "value":"",
+          "id":106203
+        },
+        {
+          "type":"synonyms",
+          "rule":[
+            "Martinikerk (Groningen)",
+            "Martinikerk_(Groningen)",
+            "Martinikerk",
+            "Martina Kirk"
+          ],
+          "value":"",
+          "id":106202
+        },
+        {
+          "type":"synonyms",
+          "rule":[
+            "University_of_Groningen",
+            "University of Groningen",
+            "University of groningen",
+            "University"
+          ],
+          "value":"",
+          "id":106204
+        }
+      ]
+    },
+    {
+      "entity":{
+        "name":"Name",
+        "type":"annotation",
+        "id":7640,
+        "enabled":true,
+        "shared":false,
+        "priority":1,
+        "noSpelling":true,
+        "noMorph":false,
+        "phoneticSearch":false,
+        "fuzzySearch":false,
+        "client":false
+      },
+      "records":[
+        {
+          "type":"synonyms",
+          "rule":[
+            "Alina",
+            "Dan",
+            "Ion"
+          ],
+          "value":"",
+          "id":106201
+        }
+      ]
+    }
+  ],
+  "enabledSystemEntities": [
+    "duckling.number",
+    "duckling.time",
+    "duckling.duration",
+    "duckling.phone-number",
+    "duckling.email",
+    "duckling.url"
+  ]
+}
