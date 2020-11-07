@@ -319,22 +319,11 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     fun fetchAddressButtonHandler(view: View?) {
-        //val locationText = findViewById<TextView>(R.id.location)
-        //println(getPos(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble()))
-        //locationText.text = getPos(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble())[0].first
+        val locationText = findViewById<TextView>(R.id.location)
+        println(getPos(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble()))
+        locationText.text = getPos(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble())[0].first
 
-        //(application as AimyboxProvider).aimybox.sendRequest("hello")
-//        val aimybox = (AimyboxApplication.AIMY as AimyboxProvider).aimybox
-//        aimybox.sendRequest("hello")
-
-
-
-//        val instance = AimyboxApplication()
-//        instance.getInstance().sendRequest("hello")
-
-
-//        instance.getInstance().sendRequest("test")
-//        AimyboxApplication().getInstance().sendRequest("test");
+        (application as AimyboxProvider).aimybox.sendRequest("location")
     }
 
     override fun onBackPressed() {
