@@ -43,7 +43,7 @@ class LocationHandler {
             }
         })
         // Sleep for now, maybe add async/await later
-        Thread.sleep(2000L)
+        Thread.sleep(1000L)
 
         for (place in place_list) {
             if (known_places.contains(place.first)) {
@@ -54,4 +54,27 @@ class LocationHandler {
         return ""
     }
 
+    fun getCity(latitude: Double, longitude: Double): String {
+        val url =
+                "https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&result_type=administrative_area_level_1&key=AIzaSyC9umGSBv04JS9H1mNoIUdzf8o8e_IQ_nw"
+        val request = okhttp3.Request.Builder().url(url).build()
+        val client = OkHttpClient()
+        var city_name = ""
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                val results = JSONArray(JSONObject(response.body()?.string()).get("results").toString())[0].toString()
+                val address_component = JSONArray(JSONObject(results).get("address_components").toString())[0].toString()
+                city_name = JSONObject(address_component).get("long_name").toString()
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                println("FAILED TO EXECUTE REQUEST")
+            }
+        })
+        // Sleep for now, maybe add async/await later
+        Thread.sleep(1000L)
+
+        return city_name
+    }
 }
