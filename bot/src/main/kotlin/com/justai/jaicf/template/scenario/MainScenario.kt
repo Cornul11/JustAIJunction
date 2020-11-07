@@ -13,7 +13,6 @@ object MainScenario : Scenario() {
             }
             action {
                 reactions.run {
-                    image("https://media.giphy.com/media/ICOgUNjpvO0PC/source.gif")
                     sayRandom(
                         "Hello! How can I help?",
                         "Hi there! How can I help you?"
@@ -34,10 +33,9 @@ object MainScenario : Scenario() {
             action {
 
                 reactions.sayRandom(
-                    "See you",
-                    "Byyyyye"
+                    "See you!",
+                    "Bye!"
                 )
-                reactions.image("https://media.giphy.com/media/EE185t7OeMbTy/source.gif")
             }
         }
 
@@ -45,24 +43,11 @@ object MainScenario : Scenario() {
             activators {
                 anyIntent()
             }
-
             action {
                 activator.caila?.topIntent?.answer?.let {
                     reactions.say(it)
                 }
             }
-        }
-
-        state("location", noContext = true) {
-            activators {
-                intent("Location")
-            }
-            action {
-                reactions.sayRandom(
-                    "Nice one"
-                )
-            }
-
         }
 
         state("CurrentLocation") {

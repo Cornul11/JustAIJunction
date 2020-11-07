@@ -50,28 +50,6 @@
       "patterns": []
     },
     {
-      "id": 6767,
-      "path": "/Location",
-      "answer": "I want to show you",
-      "enabled": true,
-      "shared": false,
-      "phrases": [
-        {
-          "text": "location"
-        },
-        {
-          "text": "my location"
-        },
-        {
-          "text": "see location"
-        },
-        {
-          "text": "where am i"
-        }
-      ],
-      "patterns": []
-    },
-    {
       "id":9186,
       "path":"/Hello",
       "answer":"Nice to meet you",
@@ -110,6 +88,27 @@
       "phrases":[
         {
           "text":"loc"
+        },
+        {
+          "text": "location"
+        },
+        {
+          "text": "my location"
+        },
+        {
+          "text": "see location"
+        },
+        {
+          "text": "where am i"
+        },
+        {
+          "text": "what is there on the left"
+        },
+        {
+          "text": "what is there on the right"
+        },
+        {
+          "text": "what's in front of me"
         }
       ],
       "patterns":[
@@ -160,7 +159,8 @@
           "rule":[
             "Martinikerk (Groningen)",
             "Martinikerk_(Groningen)",
-            "Martinikerk"
+            "Martinikerk",
+            "Martina Kirk"
           ],
           "value":"",
           "id":106202
@@ -170,6 +170,7 @@
           "rule":[
             "University_of_Groningen",
             "University of Groningen",
+            "University of groningen",
             "University"
           ],
           "value":"",
