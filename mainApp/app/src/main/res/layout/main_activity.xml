@@ -16,64 +16,86 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
+    <!--<Button
         android:id="@+id/fetch_address_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fetch_address"
-        android:onClick="fetchAddressButtonHandler" />
+        android:onClick="fetchAddressButtonHandler"
+        tools:ignore="OnClick" />-->
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+    <!--    <ProgressBar-->
+    <!--        android:id="@+id/progress_bar"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_centerInParent="true" />-->
 
-    <TextView
-        android:id="@+id/latitude_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/text_margin_top"
-        android:layout_marginLeft="@dimen/margin_start"
-        android:layout_marginStart="@dimen/margin_start"
-        android:textSize="@dimen/default_text_size" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/latitude_text"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentLeft="true"-->
+    <!--        android:layout_alignParentStart="true"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        android:layout_marginTop="@dimen/text_margin_top"-->
+    <!--        android:layout_marginLeft="@dimen/margin_start"-->
+    <!--        android:layout_marginStart="@dimen/margin_start"-->
+    <!--        android:textSize="@dimen/default_text_size" />-->
 
-    <TextView
-        android:id="@+id/longitude_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="@dimen/margin_start"
-        android:layout_marginStart="@dimen/margin_start"
-        android:textSize="@dimen/default_text_size" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/longitude_text"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentStart="true"-->
+    <!--        android:layout_alignParentLeft="true"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        android:layout_marginTop="50dp"-->
+    <!--        android:layout_marginLeft="@dimen/margin_start"-->
+    <!--        android:layout_marginStart="@dimen/margin_start"-->
+    <!--        android:textSize="@dimen/default_text_size" />-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/location"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="94dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:textSize="16sp" />
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/bg" />
 
     <FrameLayout
         android:id="@+id/assistant_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#00FFFFFF">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="329dp"
+            android:fontFamily="@font/hammersmith_one"
+            android:gravity="center"
+            android:text="Sighty"
+            android:textAlignment="center"
+            android:textColor="#12B2CC"
+            android:textSize="60sp"
+            android:textStyle="bold"
+            android:typeface="normal" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="211dp"
+            android:layout_marginTop="200dp"
+            android:fontFamily="@font/source_sans_pro_light"
+            android:textAlignment="center"
+            android:textColor="#44636C"
+            android:textSize="24sp" />
 
     </FrameLayout>
+
 </FrameLayout>

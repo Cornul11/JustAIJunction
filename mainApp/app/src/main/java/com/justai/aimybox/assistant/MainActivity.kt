@@ -16,15 +16,17 @@
 
 package com.justai.aimybox.assistant
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Html
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -38,12 +40,8 @@ import com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
 import com.justai.aimybox.assistant.BuildConfig.APPLICATION_ID
 import com.justai.aimybox.components.AimyboxAssistantFragment
 import com.justai.aimybox.components.AimyboxProvider
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.IOException
+import java.util.*
+import kotlin.properties.Delegates
 
 /**
  * Getting the Location Address.
@@ -94,29 +92,32 @@ class MainActivity : AppCompatActivity() {
     private lateinit var latitudeText: TextView
     private lateinit var longitudeText: TextView
 
+    private var latitudeValue by Delegates.notNull<Double>()
+    private var longitudeValue by Delegates.notNull<Double>()
+
     /**
      * Visible while the address is being fetched.
      */
-    private lateinit var progressBar: ProgressBar
+    //private lateinit var progressBar: ProgressBar
 
     /**
      * Kicks off the request to fetch an address when pressed.
      */
-    private lateinit var fetchAddressButton: Button
+    //private lateinit var fetchAddressButton: Button
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
-        latitudeText = findViewById(R.id.latitude_text)
-        longitudeText = findViewById(R.id.longitude_text)
+        //latitudeText = findViewById(R.id.latitude_text)
+        //longitudeText = findViewById(R.id.longitude_text)
 
-        progressBar = findViewById(R.id.progress_bar)
-        fetchAddressButton = findViewById(R.id.fetch_address_button)
+        //progressBar = findViewById(R.id.progress_bar)
+        //fetchAddressButton = findViewById(R.id.fetch_address_button)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        updateUIWidgets()
+        //updateUIWidgets()
 
         val assistantFragment = AimyboxAssistantFragment()
 
@@ -139,17 +140,32 @@ class MainActivity : AppCompatActivity() {
     /**
      * Gets the address for the last known location.
      */
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission", "SetTextI18n")
     private fun getLastLocation() {
         fusedLocationClient?.lastLocation
                 ?.addOnCompleteListener { taskLocation ->
                     if (taskLocation.isSuccessful && taskLocation.result != null) {
-
+                        val locationHandler = LocationHandler()
                         val location = taskLocation.result
-                        latitudeText.text = resources
-                                .getString(R.string.latitude_label, location?.latitude)
-                        longitudeText.text = resources
-                                .getString(R.string.longitude_label, location?.longitude)
+                        //latitudeText.text = resources.getString(R.string.latitude_label, location?.latitude)
+                        //longitudeText.text = resources.getString(R.string.longitude_label, location?.longitude)
+
+                        latitudeValue = location?.latitude!!
+                        longitudeValue = location.longitude
+
+                        val placeName = locationHandler.getPlaceName(latitudeValue, longitudeValue)
+                        val placeNameTextView = findViewById<TextView>(R.id.location)
+                        val currentTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+                        var greeting : String = ""
+                        when (currentTime) {
+                            in 5..12 -> greeting = "Good morning"
+                            in 12..18 -> greeting = "Good afternoon"
+                            in 18..24 -> greeting = "Good evening"
+                            in 0..5 -> greeting = "Good evening"
+                        }
+                        placeNameTextView.setTextColor(Color.parseColor("#44636C"))
+                        placeNameTextView.text =  Html.fromHtml("<center>$greeting,<br />You are now around <b>$placeName</b></center>")
+                        placeNameTextView.gravity = Gravity.CENTER
                     } else {
                         Log.w(TAG, "getLastLocation:exception", taskLocation.exception)
                         showSnackbar(R.string.no_location_detected)
@@ -160,15 +176,15 @@ class MainActivity : AppCompatActivity() {
     /**
      * Toggles the visibility of the progress bar. Enables or disables the Fetch Address button.
      */
-    private fun updateUIWidgets() {
-        if (addressRequested) {
-            progressBar.visibility = ProgressBar.VISIBLE
-            fetchAddressButton.isEnabled = false
-        } else {
-            progressBar.visibility = ProgressBar.GONE
-            fetchAddressButton.isEnabled = true
-        }
-    }
+//    private fun updateUIWidgets() {
+//        if (addressRequested) {
+//            progressBar.visibility = ProgressBar.VISIBLE
+//            fetchAddressButton.isEnabled = false
+//        } else {
+//            progressBar.visibility = ProgressBar.GONE
+//            fetchAddressButton.isEnabled = true
+//        }
+//    }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         savedInstanceState ?: return
@@ -208,14 +224,12 @@ class MainActivity : AppCompatActivity() {
      * Return the current state of the permissions needed.
      */
     private fun checkPermissions(): Boolean {
-        val permissionState = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissionState = ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
         return permissionState == PackageManager.PERMISSION_GRANTED
     }
 
     private fun startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION),
-                REQUEST_PERMISSIONS_REQUEST_CODE)
+        ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION), REQUEST_PERMISSIONS_REQUEST_CODE)
     }
 
     private fun requestPermissions() {
@@ -236,7 +250,6 @@ class MainActivity : AppCompatActivity() {
             startLocationPermissionRequest()
         }
     }
-
 
 
     /**
@@ -285,15 +298,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("MissingPermission")
-    fun fetchAddressButtonHandler(view: View?) {
+    fun fetchAddressButtonHandler() {
         val locationText = findViewById<TextView>(R.id.location)
         val latitude = latitudeText.text.toString().split(':')[1].toDouble()
         val longitude = longitudeText.text.toString().split(':')[1].toDouble()
         val locationHandler = LocationHandler()
-        locationText.text = locationHandler.getPlaceName(latitudeText.text.toString().split(':')[1].toDouble(), longitudeText.text.toString().split(':')[1].toDouble())
+        locationText.text = locationHandler.getPlaceName(
+                latitudeText.text.toString().split(':')[1].toDouble(),
+                longitudeText.text.toString().split(':')[1].toDouble())
 
         if (locationText.text != "") {
-//            (application as AimyboxProvider).aimybox.sendRequest(locationText.text.toString())
             (application as AimyboxProvider).aimybox.sendRequest("need Martinitoren")
         }
     }
