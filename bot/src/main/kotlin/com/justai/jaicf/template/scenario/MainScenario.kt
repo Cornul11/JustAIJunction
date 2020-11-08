@@ -56,7 +56,7 @@ object MainScenario : Scenario() {
 
             }
             action {
-                val history = Api.getLocationHistory()
+                val history = Connector.getLocationHistory()
                 reactions.say("Today you've seen: ")
                 for (i in history){
                     reactions.say(i)
@@ -71,7 +71,7 @@ object MainScenario : Scenario() {
             }
 
             action {
-                val response = activator.caila?.slots?.get("loc")?.let { Api.getWikiInfo(it) }
+                val response = activator.caila?.slots?.get("loc")?.let { Connector.getWikiInfo(it) }
 
                 reactions.sayRandom(
                         "In front of you you could see $response",
@@ -104,12 +104,30 @@ object MainScenario : Scenario() {
             }
 
             action {
-                val response = Api.getWikiInfo("Groninger Museum")
+                val response = Connector.getWikiInfo("Groninger Museum")
 
                 reactions.say(
                         "In front of you you could see $response"
                 )
                 reactions.image("https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Groninger_Museum_2.jpg/500px-Groninger_Museum_2.jpg")
+            }
+        }
+
+        state("CityFacts") {
+            activators {
+                intent("CityFacts")
+            }
+
+            action {
+                val city = Connector.getCity(53.2122827, 6.56607809)
+
+                println("city: " + city)
+                reactions.sayRandom(
+                        "Here's some info about the city's history " +  Connector.getWikiCityHistoryInfo(city),
+                        "Here's some info about the city's culture " +  Connector.getWikiCityCultureInfo(city),
+                        "Here's some info about the city's politics " + Connector.getWikiCityPoliticsInfo(city)
+                )
+                reactions.image("https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/GroningenCity_Montage.jpg/375px-GroningenCity_Montage.jpg")
             }
         }
 

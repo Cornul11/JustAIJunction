@@ -2,10 +2,11 @@ package com.justai.jaicf.template.scenario
 
 
 import kotlinx.coroutines.runBlocking
+import org.json.JSONArray
 import java.net.URL
 import 	org.json.JSONObject
 
-object Api {
+object Connector {
 
     /**
      * get travel history
@@ -41,6 +42,33 @@ object Api {
         if (value == "Martinitoren")
             return "Martinitoren"
         return "Groningen"
+    }
+
+    fun getWikiCityHistoryInfo(city: String) = runBlocking {
+        val query = JSONObject(URL("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&explaintext&exsectionformat=plain&titles=$city&redirects=").readText()).get("query").toString()
+        var startIndex = query.indexOf("\\n\\n\\nHistory", 0)
+        startIndex += 15
+        var stopIndex = query.indexOf("\\n\\n\\n", startIndex)
+        query.substring(startIndex, stopIndex)
+    }
+
+    fun getWikiCityCultureInfo(city: String) = runBlocking {
+        ""
+    }
+
+    fun getWikiCityPoliticsInfo(city: String) = runBlocking {
+        ""
+    }
+
+    fun getCity(latitude: Double, longitude: Double): String {
+        val url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&result_type" +
+                "=administrative_area_level_1&key=AIzaSyC9umGSBv04JS9H1mNoIUdzf8o8e_IQ_nw"
+        val results = JSONArray(JSONObject(URL(url).readText()).get("results").toString())[0].toString()
+        var city_name = ""
+        val address_component = JSONArray(JSONObject(results).get("address_components").toString())[0].toString()
+        city_name = JSONObject(address_component).get("long_name").toString()
+
+        return city_name
     }
 
 }

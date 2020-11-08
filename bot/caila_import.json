@@ -112,7 +112,6 @@
         }
       ],
       "patterns":[
-
       ]
     },
     {
@@ -155,6 +154,24 @@
           ]
         }
       ]
+    },
+    {
+      "id": 9203,
+      "path": "/CityFacts",
+      "enabled": true,
+      "shared": false,
+      "phrases": [
+        {
+          "text": "facts"
+        },
+        {
+          "text": "city facts"
+        },
+        {
+          "text": "tell me more about the city"
+        }
+      ],
+      "patterns": []
     }
   ],
   "entities":[
