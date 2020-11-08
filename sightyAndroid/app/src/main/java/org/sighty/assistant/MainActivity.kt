@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity() {
                         val placeName = locationHandler.getPlaceName(latitudeValue, longitudeValue)
                         val placeNameTextView = findViewById<TextView>(R.id.location)
                         val currentTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-                        var greeting : String = ""
+                        var greeting = ""
                         when (currentTime) {
                             in 5..12 -> greeting = "Good morning"
                             in 12..18 -> greeting = "Good afternoon"
@@ -185,7 +185,7 @@ class MainActivity : AppCompatActivity() {
 //    }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
-        savedInstanceState ?: return
+        savedInstanceState
 
         with(savedInstanceState) {
             // Save whether the address has been requested.
@@ -313,6 +313,6 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val assistantFragment = (supportFragmentManager.findFragmentById(R.id.assistant_container)
                 as? AimyboxAssistantFragment)
-        if (assistantFragment?.onBackPressed() != true) super.onBackPressed();
+        if (assistantFragment?.onBackPressed() != true) super.onBackPressed()
     }
 }

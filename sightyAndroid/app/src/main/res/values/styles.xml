@@ -16,8 +16,6 @@
 
 <resources>
 
-    <style name="Theme.Base" parent="Theme.AppCompat.Light" />
-
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:colorPrimary">#44636C</item>
         <item name="android:colorPrimaryDark">@color/primaryDark</item>

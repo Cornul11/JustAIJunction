@@ -1,4 +1,4 @@
-package org.sighty.assistant;
+package org.sighty.assistant
 
 import okhttp3.Call
 import okhttp3.Callback

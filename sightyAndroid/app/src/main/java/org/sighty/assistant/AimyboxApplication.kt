@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package org.sighty.assistant
 
 import android.app.Application
@@ -15,7 +17,7 @@ open class AimyboxApplication : Application(), AimyboxProvider {
     override val aimybox by lazy { createAimybox(this) }
 
     open fun createAimybox(context: Context): Aimybox {
-        val unitId = UUID.randomUUID().toString();
+        val unitId = UUID.randomUUID().toString()
 
         val textToSpeech = GooglePlatformTextToSpeech(context, Locale.ENGLISH)
         val speechToText = GooglePlatformSpeechToText(context, Locale.ENGLISH)
