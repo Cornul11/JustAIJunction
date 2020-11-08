@@ -133,6 +133,7 @@
       "patterns": []
     },
     {
+<<<<<<< HEAD
       "id":9635,
       "path":"/ReceiveLocation",
       "enabled":true,
@@ -156,6 +157,8 @@
       ]
     },
     {
+=======
+>>>>>>> 6e82bd1e7d941f99eab3051653b1631bcb98f4a7
       "id": 9203,
       "path": "/CityFacts",
       "enabled": true,

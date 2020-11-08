@@ -132,6 +132,23 @@ object MainScenario : Scenario() {
         }
 
 
+        state("CityFacts") {
+            activators {
+                intent("CityFacts")
+            }
+
+            action {
+                val city = LocationHandler().getCity(53.2122827, 6.56607809)
+
+                reactions.sayRandom(
+                        "Here's some info about the city's history " +  Api.getWikiCityHistoryInfo(city),
+                        "Here's some info about the city's culture " +  Api.getWikiCityCultureInfo(city),
+                        "Here's some info about the city's politics " + Api.getWikiCityPoliticsInfo(city)
+                )
+                reactions.image("https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/GroningenCity_Montage.jpg/375px-GroningenCity_Montage.jpg")
+            }
+        }
+
         fallback {
             reactions.sayRandom(
                 "Sorry, I didn't get that...",
