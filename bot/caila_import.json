@@ -112,7 +112,6 @@
         }
       ],
       "patterns":[
-
       ]
     },
     {
@@ -129,6 +128,47 @@
         },
         {
           "text": "what I've seen"
+        }
+      ],
+      "patterns": []
+    },
+    {
+      "id":9635,
+      "path":"/ReceiveLocation",
+      "enabled":true,
+      "shared":false,
+      "phrases":[
+        {
+          "text":"need"
+        }
+      ],
+      "patterns":[
+      ],
+      "slots":[
+        {
+          "name":"loc",
+          "entity":"Location",
+          "required":true,
+          "prompts":[
+            "Not that interesting"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9203,
+      "path": "/CityFacts",
+      "enabled": true,
+      "shared": false,
+      "phrases": [
+        {
+          "text": "facts"
+        },
+        {
+          "text": "city facts"
+        },
+        {
+          "text": "tell me more about the city"
         }
       ],
       "patterns": []
@@ -156,7 +196,7 @@
             "Der_Aa-kerk",
             "Akerk",
             "A-kerk",
-            "Kerk"
+            "Der aa Kerk"
           ],
           "value":"",
           "id":106203
@@ -197,6 +237,14 @@
           ],
           "value":"",
           "id":106206
+        },
+        {
+          "type":"synonyms",
+          "rule":[
+            "Groningen"
+          ],
+          "value":"",
+          "id":106207
         }
       ]
     },
